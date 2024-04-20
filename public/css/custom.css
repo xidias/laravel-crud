@@ -1,0 +1,7 @@
+/* public/css/custom.css */
+body {
+    background-color: #f0f0f0;
+}
+main>.container {
+    min-height: calc(100vh - 2*56px);
+}
