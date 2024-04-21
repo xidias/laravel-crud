@@ -38,7 +38,7 @@ $(function() {
     function modalForm() {
         // Initialize labels on page load if input fields are pre-filled
         $('.form-floating .form-control').each(function() {
-            if ($(this).val()) {
+            if ($(this).val() || $(this).attr('type') == 'file') {
                 $(this).siblings('label').css('transform', 'scale(.85) translateY(-.5rem) translateX(.15rem)');
             } else {
                 $(this).siblings('label').css('transform', 'none');
@@ -48,13 +48,20 @@ $(function() {
             $(this).siblings('label').css('transform', 'scale(.85) translateY(-.5rem) translateX(.15rem)');
         });
         $('.form-floating .form-control').on('blur', function() {
-            if ($(this).val()) {
+            if ($(this).val() || $(this).attr('type') == 'file') {
                 $(this).siblings('label').css('transform', 'scale(.85) translateY(-.5rem) translateX(.15rem)');
             } else {
                 $(this).siblings('label').css('transform', 'none');
             }
         });
     }
+
+    function displayFileName(input) {
+        var fileName = input.files[0].name; // Get the file name
+        $('#logo_name').val(fileName); // Set the file name in the hidden input field
+        $('#logo_display').text(fileName); // Display the file name in the span
+    }
+
 /* 
     $(document).on('click','.btn-secondary', function() {
         alert('ddd');

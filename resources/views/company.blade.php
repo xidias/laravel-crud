@@ -45,6 +45,10 @@
                 @endforeach
             </tbody>
             </table>
+            <!-- Pagination links -->
+            <div class="pagination">
+                {{ $companies->links() }}
+            </div>
         </div>
     @endsection
 
@@ -98,13 +102,24 @@
             <label for="company-website">Ιστοσελίδα</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="company-logo" name="logo" {{$disableInput}} value="{{$company->logo??NULL}}">
-            <label for="company-logo">Λογότυπο</label>
+            <input type="file" class="form-control form-control-file" id="company-logo" name="logo" {{$disableInput}} value="{{$company->logo??NULL}}">
+            <label class="" for="company-logo">Λογότυπο</label>
+            <span id="logoFileName" style="margin-top: 5px;display: inline-block;font-size: 14px;"></span>
         </div>
+        @if (isset($company->logo)&&!empty($company->logo))
+            <img src="{{ asset('storage/' . $company->logo) }}" alt="Company Logo" style="max-width:100%">
+        @endif
+        <script>
+            document.getElementById('company-logo').addEventListener('change', function(e) {
+                const fileName = e.target.files[0].name;
+                document.getElementById('logoFileName').textContent = fileName;
+            });
+        </script>
+
     @endsection
 
     @section('form')
-        <form data-action="{{$action}}" method="POST" action="{{$formAction}}">
+        <form data-action="{{$action}}" method="POST" action="{{$formAction}}" enctype="multipart/form-data">
             @csrf
             @if ($action == 'edit')
                 @method('PUT')

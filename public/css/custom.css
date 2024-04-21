@@ -5,3 +5,9 @@ body {
 main>.container {
     min-height: calc(100vh - 2*56px);
 }
+.pagination svg {
+    max-width: 20px;
+}
+.pagination, .pagination>* {
+    min-width: 500px;
+}

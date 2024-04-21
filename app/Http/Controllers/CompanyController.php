@@ -12,7 +12,7 @@ class CompanyController extends Controller
      * Display a listing of the resource.
      */
     public function index() {
-        $companies = Company::all();
+        $companies = Company::paginate(5);
         return view('company', compact('companies'));
     }
 
@@ -36,8 +36,13 @@ class CompanyController extends Controller
                 'email' => 'required|email|max:255',
                 'description' => 'nullable|string',
                 'website' => 'nullable|url',
-                'logo' => 'nullable|string',
+                'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Max size 2MB
             ]);
+
+            if ($request->hasFile('logo')) {
+                $logoPath = $request->file('logo')->store('logos', 'public');
+                $validatedData['logo'] = $logoPath;
+            }
     
             // Create a new company using mass assignment
             $company = Company::create($validatedData);
