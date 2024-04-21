@@ -1,42 +1,42 @@
 
 {{-- <pre>{{ print_r($companies, true) }}</pre> --}}
 {{-- list content --}}
-@if (isset($companies))
+@if (isset($employees))
     @extends('layouts.app')
     @section('content')
         <div class="container">
             <div class="d-flex align-items-center justify-content-between options">
-            <h1 class="my-5 h3">Εταιρείες</h1>
+            <h1 class="my-5 h3">Εργαζόμενοι</h1>
             <a href="javascript:void(0)" class="text-decoration-none" data-action="add" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <img src="{{ asset('icons/plus.svg') }}" alt="Edit Icon">
             </a>
             </div>
-            <table class="table" data-url="{{url('/')}}/company/modal">
+            <table class="table" data-url="{{url('/')}}/employee/modal">
             <thead>
                 <tr>
                 <th scope="col">#</th>
-                <th scope="col">Ονομασία</th>
+                <th scope="col">Ονοματεπώνυμο</th>
                 <th scope="col">Email</th>
-                <th scope="col">Ιστοσελίδα</th>
+                <th scope="col">Tηλέφωνο</th>
                 <th scope="col">Επεξεργασία</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($companies as $company)                  
+                @foreach ($employees as $employee)                  
                 <tr>
-                    <th scope="row">{{$company->id}}</th>
-                    <td>{{$company->name}}</td>
-                    <td>{{$company->email}}</td>
-                    <td>{{$company->website}}</td>
+                    <th scope="row">{{$employee->id}}</th>
+                    <td>{{$employee->full_name}}</td>
+                    <td>{{$employee->email}}</td>
+                    <td>{{$employee->phone}}</td>
                     <td>
                         <div class="options d-flex justify-content-between">
-                        <a href="javascript:void(0)" class="text-decoration-none" data-action="preview" data-id="{{$company->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <a href="javascript:void(0)" class="text-decoration-none" data-action="preview" data-id="{{$employee->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             <img src="{{ asset('icons/preview.svg') }}" alt="Show Icon">
                         </a>
-                        <a href="javascript:void(0)" class="text-decoration-none" data-action="edit" data-id="{{$company->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <a href="javascript:void(0)" class="text-decoration-none" data-action="edit" data-id="{{$employee->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             <img src="{{ asset('icons/pencil.svg') }}" alt="Edit Icon">
                         </a>
-                        <a href="javascript:void(0)" class="text-decoration-none" data-action="delete" data-id="{{$company->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <a href="javascript:void(0)" class="text-decoration-none" data-action="delete" data-id="{{$employee->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             <img src="{{ asset('icons/trash.svg') }}" alt="Delete Icon">
                         </a>
                         </div>
@@ -52,24 +52,24 @@
 @elseif (isset($action))
     @php
         $disableInput = '';
-        $formAction = route('company.list');
+        $formAction = route('employee.list');
         switch ($action) {
             case 'add':
-                $title = 'Προσθήκη εταιρείας';
-                $formAction = route('company.add');
+                $title = 'Προσθήκη εργαζόμενου';
+                $formAction = route('employee.add');
                 break;
             case 'preview':
-                $title = 'Προβολή εταιρείας';
+                $title = 'Προβολή εργαζόμενου';
                 $disableInput = 'disabled';
                 break;
             case 'edit':
-                $title = 'Τροποποίηση εταιρείας';
-                $formAction = route('company.update', $company->id);
+                $title = 'Τροποποίηση εργαζόμενου';
+                $formAction = route('employee.update', $employee->id);
                 break;
             case 'delete':
-                $title = 'Διαγραφή εταιρείας';
+                $title = 'Διαγραφή εργαζόμενου';
                 $disableInput = 'disabled';
-                $formAction = route('company.delete', $company->id);
+                $formAction = route('employee.delete', $employee->id);
                 break;
             default:
                 $title = 'Modal title';
@@ -79,27 +79,19 @@
 
     @section('inputs')
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="company-name" name="name" {{$disableInput}} value="{{$company->name??NULL}}">
-            <label for="company-name">Ονομασία</label>
+            <input type="text" class="form-control" id="employee-name" name="full_name" {{$disableInput}} value="{{$employee->full_name??NULL}}">
+            <label for="employee-name">Ονομασία</label>
         </div>
         @error('name')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="company-email" name="email" {{$disableInput}} value="{{$company->email??NULL}}">
-            <label for="company-email">Email address</label>
+            <input type="email" class="form-control" id="employee-email" name="email" {{$disableInput}} value="{{$employee->email??NULL}}">
+            <label for="employee-email">Email address</label>
         </div>
         <div class="form-floating mb-3">
-            <textarea class="form-control h-100" id="company-description" name="description" rows="3" {{$disableInput}}>{{$company->description??NULL}}</textarea>
-            <label for="company-description">Περιγραφή δραστηριότητας</label>
-        </div>
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="company-website" name="website" {{$disableInput}} value="{{$company->website??NULL}}">
-            <label for="company-website">Ιστοσελίδα</label>
-        </div>
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="company-logo" name="logo" {{$disableInput}} value="{{$company->logo??NULL}}">
-            <label for="company-logo">Λογότυπο</label>
+            <input type="text" class="form-control" id="employee-website" name="phone" {{$disableInput}} value="{{$employee->phone??NULL}}">
+            <label for="employee-website">Tηλέφωνο</label>
         </div>
     @endsection
 
