@@ -35,7 +35,7 @@
                             <a class="nav-link {{request()->routeIs('employs') ? 'active' : ''}}" href="{{route('employee.list')}}">Εργαζόμενοι</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{request()->routeIs('categories') ? 'active' : ''}}" href="#">Κατηγορίες</a>
+                            <a class="nav-link {{request()->routeIs('categories') ? 'active' : ''}}" href="{{route('category.list')}}">Κατηγορίες</a>
                         </li>
                     </ul>
                 </div>

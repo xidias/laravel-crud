@@ -35,10 +35,6 @@ $(function() {
         });
     });
 
-
-
-
-
     function modalForm() {
         // Initialize labels on page load if input fields are pre-filled
         $('.form-floating .form-control').each(function() {
