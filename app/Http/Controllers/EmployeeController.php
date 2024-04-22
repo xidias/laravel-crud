@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Employee; // Import the Employee model
+use Illuminate\Support\Str;
 
 class EmployeeController extends Controller
 {
@@ -13,7 +14,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::all();
+        //$employees = Employee::all();
+        $employees = Employee::paginate(25); // Paginate with 25 employees per page
         return view('employee', compact('employees'));
     }
 
@@ -139,4 +141,55 @@ class EmployeeController extends Controller
         }
         return redirect()->route('employee.list');
     }
+
+    public function random(Request $request)
+    {
+        // Validation rules for random data
+        $validatedData = $request->validate([
+            'number_of_records' => 'required|integer|min:1|max:100', // Adjust max limit as needed
+        ]);
+
+        $numberOfRecords = $validatedData['number_of_records'];
+
+        // Generate random data and save to database
+        for ($i = 0; $i < $numberOfRecords; $i++) {
+            $employee = new Employee();
+            $employee->full_name = $this->generateRandomName();
+            $employee->email = $this->generateRandomEmail();
+            $employee->phone = $this->generateRandomPhone();
+            $employee->save();
+        }
+        session()->flash('success', 'Random data generated successfully.');
+        return redirect()->route('employee.list');
+    }
+
+    // Helper method to generate a random name (you can adjust as needed)
+    private function generateRandomName()
+    {
+        $firstNames = ['John', 'Jane', 'James', 'Emily', 'Michael', 'Sarah', 'David', 'Laura', 'Daniel', 'Emma', 'Oliver', 'Charlotte', 'William', 'Ava', 'Alexander', 'Mia', 'Ethan', 'Sophia', 'Benjamin', 'Isabella', 'Jacob', 'Amelia', 'Lucas', 'Harper', 'Matthew', 'Ella', 'Joseph', 'Grace', 'Henry', 'Chloe', 'Samuel', 'Victoria', 'Elijah', 'Lily', 'Gabriel', 'Natalie', 'Jackson', 'Aria', 'Luke', 'Madison', 'Christopher', 'Zoe', 'Anthony', 'Hannah', 'Isaac', 'Scarlett', 'Andrew', 'Addison', 'Nathan', 'Evelyn'];
+        $lastNames = ['Doe', 'Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Anderson', 'Wilson', 'Miller', 'Davis', 'Martinez', 'Garcia', 'Rodriguez', 'Hernandez', 'Lopez', 'Gonzalez', 'Perez', 'Thomas', 'Moore', 'Jackson', 'Martin', 'Lee', 'Walker', 'Parker', 'Roberts', 'Clark', 'Lewis', 'Young', 'Hall', 'Allen', 'King', 'Wright', 'Scott', 'Adams', 'Green', 'Evans', 'Baker', 'Nelson', 'Hill', 'Ramirez', 'Campbell', 'Mitchell', 'Robinson', 'Carter', 'Phillips', 'Evans', 'Turner', 'Morris', 'Ward'];
+        
+        $firstName = $firstNames[array_rand($firstNames)];
+        $lastName = $lastNames[array_rand($lastNames)];
+
+        return $firstName . ' ' . $lastName;
+    }
+
+    // Helper method to generate a random email
+    private function generateRandomEmail()
+    {
+        $domains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'example.com', 'aol.com', 'outlook.com', 'icloud.com', 'live.com', 'msn.com', 'protonmail.com', 'mail.com', 'zoho.com', 'yandex.com', 'rocketmail.com', 'inbox.com', 'gmx.com', 'fastmail.com', 'tutanota.com', 'earthlink.net', 'cox.net', 'verizon.net', 'att.net', 'sbcglobal.net', 'roadrunner.com', 'optonline.net', 'charter.net', 'juno.com', 'netzero.net', 'prodigy.net', 'compuserve.com', 'aol.co.uk', 'btinternet.com', 'virginmedia.com', 'ntlworld.com', 'talktalk.net'];
+        $username = strtolower(Str::random(8)); // Generate a random username (adjust as needed)
+        $domain = $domains[array_rand($domains)];
+
+        return $username . '@' . $domain;
+    }
+
+    // Helper method to generate a random phone number
+    private function generateRandomPhone()
+    {
+        return mt_rand(1000000000, 9999999999); // Generate a 10-digit random number (adjust as needed)
+    }
+
+
 }

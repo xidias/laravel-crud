@@ -50,9 +50,7 @@
                 <p> Δεν υπάρχουν εγραφές</p>
             @endif
             <!-- Pagination links -->
-            <div class="pagination">
-                {{ $companies->links() }}
-            </div>
+            {{ $companies->links() }}
         </div>
     @endsection
 

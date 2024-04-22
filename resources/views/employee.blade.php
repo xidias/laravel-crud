@@ -45,9 +45,19 @@
                     </tr>
                     @endforeach
                 </tbody>
-                </table>  
+                </table>
+                {{ $employees->links() }} <!-- Display pagination links -->
             @else
                 <p> Δεν υπάρχουν εγραφές</p>
+                <form action="{{ route('employee.random') }}" method="POST">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="number_of_records" class="form-label">Number of Records</label>
+                        <input type="number" class="form-control" id="number_of_records" name="number_of_records" min="1" max="100" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Generate Random Data</button>
+                </form>
+                
             @endif
         </div>
     @endsection

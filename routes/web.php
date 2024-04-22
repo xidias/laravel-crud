@@ -24,6 +24,7 @@ Route::get('/employee/modal/{action}/{id?}', [employeeController::class,'modal']
 Route::put('/employee/update/{id}', [employeeController::class,'update'])->name('employee.update');
 Route::post('employee/add', [employeeController::class, 'store'])->name('employee.add');
 Route::delete('employee/delete/{id}', [employeeController::class, 'destroy'])->name('employee.delete');
+Route::post('/employee/generate-random', [employeeController::class, 'random'])->name('employee.random');
 
 Route::get('/category/list', [categoryController::class,'index'])->name('category.list');
 Route::get('/category/{id}', [categoryController::class,'show'])->name('category.show');
