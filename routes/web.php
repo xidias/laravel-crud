@@ -17,6 +17,7 @@ Route::get('/company/modal/{action}/{id?}', [CompanyController::class,'modal'])-
 Route::put('/company/update/{id}', [CompanyController::class,'update'])->name('company.update');
 Route::post('company/add', [CompanyController::class, 'store'])->name('company.add');
 Route::delete('company/delete/{id}', [CompanyController::class, 'destroy'])->name('company.delete');
+Route::post('/company/generate-random', [companyController::class, 'random'])->name('company.random');
 
 Route::get('/employee/list', [employeeController::class,'index'])->name('employee.list');
 Route::get('/employee/{id}', [employeeController::class,'show'])->name('employee.show');

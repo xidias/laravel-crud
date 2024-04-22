@@ -46,11 +46,19 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{ $companies->links() }} <!-- Display pagination links -->
             @else
                 <p> Δεν υπάρχουν εγραφές</p>
+                <form action="{{ route('company.random') }}" method="POST">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="number_of_companies" class="form-label">Number of Companies</label>
+                        <input type="number" class="form-control" id="number_of_companies" name="number_of_companies" min="1" max="100" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Generate Random Companies</button>
+                </form>                
             @endif
             <!-- Pagination links -->
-            {{ $companies->links() }}
         </div>
     @endsection
 
