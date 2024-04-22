@@ -50,7 +50,7 @@
                 <form action="{{ route('category.random') }}" method="POST">
                     @csrf
                     <div class="mb-3">
-                        <label for="number_of_categories" class="form-label">Number of Categories</label>
+                        <label for="number_of_categories" class="form-label">Number of Categories - max 10</label>
                         <input type="number" class="form-control" id="number_of_categories" name="number_of_categories" min="1" max="10" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Generate Random Categories</button>

@@ -52,7 +52,7 @@
                 <form action="{{ route('employee.random') }}" method="POST">
                     @csrf
                     <div class="mb-3">
-                        <label for="number_of_records" class="form-label">Number of Records</label>
+                        <label for="number_of_records" class="form-label">Number of Records - max 100</label>
                         <input type="number" class="form-control" id="number_of_records" name="number_of_records" min="1" max="100" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Generate Random Data</button>

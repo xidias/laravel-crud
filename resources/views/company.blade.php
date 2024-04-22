@@ -52,7 +52,7 @@
                 <form action="{{ route('company.random') }}" method="POST">
                     @csrf
                     <div class="mb-3">
-                        <label for="number_of_companies" class="form-label">Number of Companies</label>
+                        <label for="number_of_companies" class="form-label">Number of Companies - max 100</label>
                         <input type="number" class="form-control" id="number_of_companies" name="number_of_companies" min="1" max="100" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Generate Random Companies</button>

@@ -49,14 +49,12 @@ This Laravel project implements CRUD (Create, Read, Update, Delete) functionalit
    php artisan migrate
    ```
 
-7. (Optional) Seed the database with sample data:
-
-   ```bash
-   php artisan db:seed
-   ```
-
 ## Usage
 
+To start the Laravel development server, run:
+```bash
+php artisan serve
+```
 - Register as an admin or moderator.
 - Admins have full CRUD permissions for companies, employees, and categories.
 - Moderators can modify companies and employees.
