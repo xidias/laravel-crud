@@ -33,3 +33,4 @@ Route::get('/category/modal/{action}/{id?}', [categoryController::class,'modal']
 Route::put('/category/update/{id}', [categoryController::class,'update'])->name('category.update');
 Route::post('category/add', [categoryController::class, 'store'])->name('category.add');
 Route::delete('category/delete/{id}', [categoryController::class, 'destroy'])->name('category.delete');
+Route::post('/category/generate-random', [categoryController::class, 'random'])->name('category.random');

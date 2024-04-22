@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -13,7 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::paginate(25); // Paginate with 25 rows per page
         return view('category', compact('categories'));
     }
 
@@ -137,4 +138,66 @@ class CategoryController extends Controller
     
         return redirect()->route('category.list');
     }
+
+    public function random(Request $request)
+    {
+        $validatedData = $request->validate([
+            'number_of_categories' => 'required|integer|min:1|max:10', // Max 10 categories
+        ]);
+
+        $numberOfCategories = $validatedData['number_of_categories'];
+
+        for ($i = 0; $i < $numberOfCategories; $i++) {
+            $category = new Category();
+            $category->name = $this->generateRandomCategoryName();
+            $category->description = $this->generateRandomCategoryDescription();
+            $category->save();
+        }
+        session()->flash('success', 'Random data generated successfully.');
+        return redirect()->route('category.list');
+    }
+
+    private function generateRandomCategoryName()
+    {
+        $categoryNames = [
+            'Technology', 'Finance', 'Healthcare', 'Education', 'Retail', 'Automotive', 
+            'Hospitality', 'Real Estate', 'Entertainment', 'Fashion', 'Sports', 'Travel', 
+            'Food & Beverage', 'Energy', 'Manufacturing', 'Telecommunications', 'Construction', 
+            'Marketing', 'Consulting', 'Insurance', 'Agriculture', 'Pharmaceutical', 'Media', 
+            'Legal', 'Engineering', 'Government', 'Non-Profit', 'Environmental', 'Fitness', 
+            'Beauty', 'Music', 'Art', 'Design', 'Transportation', 'Logistics', 'Science', 
+            'Research', 'Security', 'Software', 'Hardware', 'Internet', 'E-commerce', 'Health & Wellness'
+        ];
+        return $categoryNames[array_rand($categoryNames)];
+    }
+
+    private function generateRandomCategoryDescription()
+    {
+        // You can customize the descriptions as needed
+        $descriptions = [
+            'A leading category in the industry', 'Innovative solutions for this category', 
+            'Transforming businesses in this sector', 'Providing top-notch services', 
+            'Your trusted partner in this domain', 'Driving excellence in this field', 
+            'Pioneering new advancements in this area', 'Empowering businesses in this category', 
+            'Shaping the future of this industry', 'Revolutionizing the way we approach this sector', 
+            'Bringing cutting-edge technology to this field', 'Creating impactful solutions', 
+            'Building a strong presence in this domain', 'Delivering unmatched expertise', 
+            'Catering to diverse needs in this category', 'Fostering innovation and growth', 
+            'Elevating standards in this sector', 'Embracing digital transformation', 
+            'Connecting businesses globally', 'Leading with creativity and vision', 
+            'Navigating challenges with expertise', 'Inspiring change and progress', 
+            'Harnessing the power of technology', 'Driving success in this field', 
+            'Cultivating partnerships and collaborations', 'Adapting to changing landscapes', 
+            'Championing innovation and sustainability', 'Empowering people and businesses', 
+            'Exploring new frontiers in this area', 'Creating value and impact', 
+            'Advancing the industry through excellence', 'Shaping a brighter future', 
+            'Creating memorable experiences', 'Enriching lives through our services', 
+            'Building a legacy of excellence', 'Empowering individuals and communities', 
+            'Leading with integrity and passion', 'Inspiring confidence and trust', 
+            'Making a positive difference', 'Crafting solutions that matter', 
+            'Driving positive change and growth', 'Empowering you to succeed'
+        ];
+        return $descriptions[array_rand($descriptions)];
+    }
+
 }
