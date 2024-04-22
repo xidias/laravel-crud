@@ -5,9 +5,6 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\CategoryController;
 
-Route::get('/welcome', function () {
-    return view('welcome');
-});
 Route::get('/', function () {
     return view('home');
 })->name('home');
