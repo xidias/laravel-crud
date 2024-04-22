@@ -14,7 +14,7 @@ $(function() {
         // Open modal
         modal.on('show.bs.modal');
         // Load data into modal for preview
-        const url = $(this).closest('.container').find('.table').data('url');
+        const url = $(this).closest('.page-content').data('url');
         const action = $(this).data('action');
         const id = $(this).data('id') !== undefined ? $(this).data('id') : '0';
         console.log(`${url}/${action}/${id}`);

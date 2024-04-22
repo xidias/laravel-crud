@@ -4,45 +4,49 @@
 @if (isset($categories))
     @extends('layouts.app')
     @section('content')
-        <div class="container">
+        <div class="container page-content" data-url="{{url('/')}}/category/modal">
             <div class="d-flex align-items-center justify-content-between options">
             <h1 class="my-5 h3">Κατηγορίες</h1>
             <a href="javascript:void(0)" class="text-decoration-none" data-action="add" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <img src="{{ asset('icons/plus.svg') }}" alt="Edit Icon">
             </a>
             </div>
-            <table class="table" data-url="{{url('/')}}/category/modal">
-            <thead>
-                <tr>
-                <th scope="col">#</th>
-                <th scope="col">Όνομα</th>
-                <th scope="col">Περιγραφή</th>
-                <th scope="col">Επεξεργασία</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($categories as $category)                  
-                <tr>
-                    <th scope="row">{{$category->id}}</th>
-                    <td>{{$category->name}}</td>
-                    <td>{{$category->description}}</td>
-                    <td>
-                        <div class="options d-flex justify-content-between">
-                        <a href="javascript:void(0)" class="text-decoration-none" data-action="preview" data-id="{{$category->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <img src="{{ asset('icons/preview.svg') }}" alt="Show Icon">
-                        </a>
-                        <a href="javascript:void(0)" class="text-decoration-none" data-action="edit" data-id="{{$category->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <img src="{{ asset('icons/pencil.svg') }}" alt="Edit Icon">
-                        </a>
-                        <a href="javascript:void(0)" class="text-decoration-none" data-action="delete" data-id="{{$category->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <img src="{{ asset('icons/trash.svg') }}" alt="Delete Icon">
-                        </a>
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-            </table>
+            @if(!$categories->isEmpty())
+                <table class="table">
+                    <thead>
+                        <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Όνομα</th>
+                        <th scope="col">Περιγραφή</th>
+                        <th scope="col">Επεξεργασία</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($categories as $category)                  
+                        <tr>
+                            <th scope="row">{{$category->id}}</th>
+                            <td>{{$category->name}}</td>
+                            <td>{{$category->description}}</td>
+                            <td>
+                                <div class="options d-flex justify-content-between">
+                                <a href="javascript:void(0)" class="text-decoration-none" data-action="preview" data-id="{{$category->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <img src="{{ asset('icons/preview.svg') }}" alt="Show Icon">
+                                </a>
+                                <a href="javascript:void(0)" class="text-decoration-none" data-action="edit" data-id="{{$category->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <img src="{{ asset('icons/pencil.svg') }}" alt="Edit Icon">
+                                </a>
+                                <a href="javascript:void(0)" class="text-decoration-none" data-action="delete" data-id="{{$category->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <img src="{{ asset('icons/trash.svg') }}" alt="Delete Icon">
+                                </a>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p> Δεν υπάρχουν εγραφές</p>
+            @endif
         </div>
     @endsection
 

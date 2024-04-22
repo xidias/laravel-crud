@@ -1,50 +1,54 @@
 
-{{-- <pre>{{ print_r($companies, true) }}</pre> --}}
+{{-- <pre>{{ print_r($employees, true) }}</pre> --}}
 {{-- list content --}}
 @if (isset($employees))
     @extends('layouts.app')
     @section('content')
-        <div class="container">
+        <div class="container page-content" data-url="{{url('/')}}/employee/modal">
             <div class="d-flex align-items-center justify-content-between options">
             <h1 class="my-5 h3">Εργαζόμενοι</h1>
             <a href="javascript:void(0)" class="text-decoration-none" data-action="add" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <img src="{{ asset('icons/plus.svg') }}" alt="Edit Icon">
             </a>
             </div>
-            <table class="table" data-url="{{url('/')}}/employee/modal">
-            <thead>
-                <tr>
-                <th scope="col">#</th>
-                <th scope="col">Ονοματεπώνυμο</th>
-                <th scope="col">Email</th>
-                <th scope="col">Tηλέφωνο</th>
-                <th scope="col">Επεξεργασία</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($employees as $employee)                  
-                <tr>
-                    <th scope="row">{{$employee->id}}</th>
-                    <td>{{$employee->full_name}}</td>
-                    <td>{{$employee->email}}</td>
-                    <td>{{$employee->phone}}</td>
-                    <td>
-                        <div class="options d-flex justify-content-between">
-                        <a href="javascript:void(0)" class="text-decoration-none" data-action="preview" data-id="{{$employee->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <img src="{{ asset('icons/preview.svg') }}" alt="Show Icon">
-                        </a>
-                        <a href="javascript:void(0)" class="text-decoration-none" data-action="edit" data-id="{{$employee->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <img src="{{ asset('icons/pencil.svg') }}" alt="Edit Icon">
-                        </a>
-                        <a href="javascript:void(0)" class="text-decoration-none" data-action="delete" data-id="{{$employee->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <img src="{{ asset('icons/trash.svg') }}" alt="Delete Icon">
-                        </a>
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-            </table>
+            @if(!$employees->isEmpty())
+                <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Ονοματεπώνυμο</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Tηλέφωνο</th>
+                    <th scope="col">Επεξεργασία</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($employees as $employee)                  
+                    <tr>
+                        <th scope="row">{{$employee->id}}</th>
+                        <td>{{$employee->full_name}}</td>
+                        <td>{{$employee->email}}</td>
+                        <td>{{$employee->phone}}</td>
+                        <td>
+                            <div class="options d-flex justify-content-between">
+                            <a href="javascript:void(0)" class="text-decoration-none" data-action="preview" data-id="{{$employee->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <img src="{{ asset('icons/preview.svg') }}" alt="Show Icon">
+                            </a>
+                            <a href="javascript:void(0)" class="text-decoration-none" data-action="edit" data-id="{{$employee->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <img src="{{ asset('icons/pencil.svg') }}" alt="Edit Icon">
+                            </a>
+                            <a href="javascript:void(0)" class="text-decoration-none" data-action="delete" data-id="{{$employee->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <img src="{{ asset('icons/trash.svg') }}" alt="Delete Icon">
+                            </a>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+                </table>  
+            @else
+                <p> Δεν υπάρχουν εγραφές</p>
+            @endif
         </div>
     @endsection
 
