@@ -30,18 +30,19 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-{{--                         <li class="nav-item">
-                            <a class="nav-link {{request()->routeIs('home') ? 'active' : ''}}" href="{{route('home')}}">Home</a>
-                        </li> --}}
-                        <li class="nav-item">
-                            <a class="nav-link {{request()->routeIs('company.list') ? 'active' : ''}}" href="{{route('company.list')}}">Εταιρείες</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{request()->routeIs('employee.list') ? 'active' : ''}}" href="{{route('employee.list')}}">Εργαζόμενοι</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{request()->routeIs('category.list') ? 'active' : ''}}" href="{{route('category.list')}}">Κατηγορίες</a>
-                        </li>
+                        @if ($loggedInUser)
+                            <li class="nav-item">
+                                <a class="nav-link {{request()->routeIs('company.list') ? 'active' : ''}}" href="{{route('company.list')}}">Εταιρείες</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{request()->routeIs('employee.list') ? 'active' : ''}}" href="{{route('employee.list')}}">Εργαζόμενοι</a>
+                            </li>
+                            @if ($loggedInUser->role=='admin')                                
+                                <li class="nav-item">
+                                    <a class="nav-link {{request()->routeIs('category.list') ? 'active' : ''}}" href="{{route('category.list')}}">Κατηγορίες</a>
+                                </li>
+                            @endif
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->

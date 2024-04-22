@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+//use Illuminate\Support\Facades\View;
 
 class CategoryController extends Controller
 {
@@ -14,7 +15,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        if(auth()->user()->role !== 'admin') {
+            return redirect()->route('home')->with('error', 'Unauthorized access.');; // Redirect to home
+        }
         $categories = Category::paginate(25); // Paginate with 25 rows per page
+        $user = auth()->user()->role;
         return view('category', compact('categories'));
     }
 

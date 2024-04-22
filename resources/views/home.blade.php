@@ -12,36 +12,47 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    {{ __('You are logged in!') }}
+                    @if($loggedInUser)
+                        <p>Welcome, {{ $loggedInUser->name }}!</p>
+                        <p>Your role is: {{ $loggedInUser->role }}</p>
+                        {{ __('You are logged in!') }}
+                    @else
+                        <p>Welcome, guest!</p>
+                    @endif
                 </div>
             </div>
         </div>
         <div class="col-md-8 mb-4">
             <div class="card">
                 <div class="card-header">{{ __('Companies') }}</div>
-                <div class="card-body">
-                <p class="card-text">Manage companies information.</p>
-                <a href="{{route('company.list')}}" class="btn btn-primary">View Companies</a>
+                @if($loggedInUser)
+                    <div class="card-body">
+                        <p class="card-text">Manage companies information.</p>
+                        <a href="{{route('company.list')}}" class="btn btn-primary">View Companies</a>
+                    </div>
+                @endif
             </div>
         </div>
-    </div>
-    <div class="col-md-8 mb-4">
-        <div class="card">
-            <div class="card-header">{{ __('Employees') }}</div>
-                <div class="card-body">
-                <p class="card-text">Manage employees information.</p>
-                <a href="{{route('employee.list')}}" class="btn btn-primary">View Employees</a>
-                </div>
+        <div class="col-md-8 mb-4">
+            <div class="card">
+                <div class="card-header">{{ __('Employees') }}</div>
+                @if ($loggedInUser)
+                    <div class="card-body">
+                        <p class="card-text">Manage employees information.</p>
+                        <a href="{{route('employee.list')}}" class="btn btn-primary">View Employees</a>
+                    </div>
+                @endif
+            </div>
         </div>
-    </div>
-    <div class="col-md-8 mb-4">
-        <div class="card">
-            <div class="card-header">{{ __('Categories') }}</div>
-                <div class="card-body">
-                    <p class="card-text">Manage company categories.</p>
-                    <a href="{{route('category.list')}}" class="btn btn-primary">View Categories</a>
-                </div>
+        <div class="col-md-8 mb-4">
+            <div class="card">
+                <div class="card-header">{{ __('Categories') }}</div>
+                @if ($loggedInUser&&$loggedInUser->role=='admin')
+                    <div class="card-body">
+                        <p class="card-text">Manage company categories.</p>
+                        <a href="{{route('category.list')}}" class="btn btn-primary">View Categories</a>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
