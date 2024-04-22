@@ -24,10 +24,14 @@ Route::post('employee/add', [employeeController::class, 'store'])->name('employe
 Route::delete('employee/delete/{id}', [employeeController::class, 'destroy'])->name('employee.delete');
 Route::post('/employee/generate-random', [employeeController::class, 'random'])->name('employee.random');
 
-Route::get('/category/list', [categoryController::class,'index'])->name('category.list');
+Route::get('/category/list', [categoryController::class,'index'])->name('category.list')->middleware('auth');
 Route::get('/category/{id}', [categoryController::class,'show'])->name('category.show');
 Route::get('/category/modal/{action}/{id?}', [categoryController::class,'modal'])->name('category.modal');
 Route::put('/category/update/{id}', [categoryController::class,'update'])->name('category.update');
 Route::post('category/add', [categoryController::class, 'store'])->name('category.add');
 Route::delete('category/delete/{id}', [categoryController::class, 'destroy'])->name('category.delete');
 Route::post('/category/generate-random', [categoryController::class, 'random'])->name('category.random');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
