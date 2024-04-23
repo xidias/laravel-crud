@@ -9,4 +9,10 @@ class Category extends Model
 {
    //use HasFactory;
    protected $fillable = ['name', 'description'];
+
+   public function companies()
+   {
+       return $this->belongsToMany(Company::class)->withTimestamps(); // Assuming pivot table has timestamps
+   }
+
 }

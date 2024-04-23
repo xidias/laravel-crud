@@ -64,6 +64,7 @@
 
 {{-- modal content --}}
 @elseif (isset($action))
+{{-- <pre>{{ print_r($categories, true) }}</pre> --}}
     @php
         $disableInput = '';
         $formAction = route('company.list');
@@ -99,6 +100,17 @@
         @error('name')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
+        <div class="form-floating mb-3">
+            <select class="select-picker form-control" id="company-categories" name="categories[]" {{$disableInput}} multiple title="Χωρίς επιλογή">
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}" {{ $company&&$company->categories->contains($category->id) ? 'selected' : '' }}>
+                        {{ $category->name }}
+                    </option>
+                @endforeach
+            </select>
+            <label for="company-categories">Κατηγορίες</label>
+        </div>
+          
         <div class="form-floating mb-3">
             <input type="email" class="form-control" id="company-email" name="email" {{$disableInput}} value="{{$company->email??NULL}}">
             <label for="company-email">Email address</label>

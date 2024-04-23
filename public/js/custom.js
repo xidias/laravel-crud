@@ -33,7 +33,13 @@ $(function() {
                 // Handle error if needed
             }
         });
+        // Initialize bootstrap-select
+/* 		$('select.select-picker').each(function(){
+			$(this).selectpicker();
+		}); */
+        //$('select').selectpicker();
     });
+
 
     function modalForm() {
         // Initialize labels on page load if input fields are pre-filled
@@ -54,6 +60,10 @@ $(function() {
                 $(this).siblings('label').css('transform', 'none');
             }
         });
+/* 		$('select').each(function(){
+			$(this).selectpicker();
+		}); */
+        $('select.select-picker').selectpicker();
     }
 
     function displayFileName(input) {

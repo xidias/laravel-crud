@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
 use App\Models\Company;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -13,8 +14,11 @@ class CompanyController extends Controller
      * Display a listing of the resource.
      */
     public function index() {
-        $companies = Company::paginate(25); // Paginate with 25 rows per page
-        return view('company', compact('companies'));
+        // Eager load the categories relationship for each company
+        $companies = Company::with('categories')->paginate(25); // Paginate with 25 rows per page
+        // Fetch all categories separately (assuming they are used elsewhere in the view)
+        $categories = Category::all();
+        return view('company', compact('companies','categories'));
     }
 
     /**
@@ -38,6 +42,7 @@ class CompanyController extends Controller
                 'description' => 'nullable|string',
                 'website' => 'nullable|url',
                 'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Max size 2MB
+                'categories' => 'nullable|array', // Assuming categories are passed as an array of IDs
             ]);
 
             if ($request->hasFile('logo')) {
@@ -47,6 +52,12 @@ class CompanyController extends Controller
     
             // Create a new company using mass assignment
             $company = Company::create($validatedData);
+
+            // Sync the categories
+            if ($request->has('categories')) {
+                $categories = Category::whereIn('id', $request->input('categories'))->get();
+                $company->categories()->sync($categories);
+            }
     
             // Flash a success message to the session
             session()->flash('success', 'Company created successfully');
@@ -75,7 +86,8 @@ class CompanyController extends Controller
      */
     public function modal(string $action,string $id='0') {
         $company = $id != 0 ? Company::findOrFail($id) : NULL;
-        return view('company', compact('company','action'));
+        $categories = Category::all();
+        return view('company', compact('company','action','categories'));
     }
 
     /**
@@ -98,6 +110,7 @@ class CompanyController extends Controller
             'description' => 'nullable|string',
             'website' => 'nullable|url',
             'logo' => 'nullable|string',
+            'categories' => 'nullable|array', // Assuming categories are passed as an array of IDs
         ]);
 
         if ($validator->fails()) {
@@ -117,6 +130,14 @@ class CompanyController extends Controller
             $company->logo = $request->input('logo');
 
             $company->save();
+
+            // Sync the categories
+            if ($request->has('categories')) {
+                $categories = Category::whereIn('id', $request->input('categories'))->get();
+                $company->categories()->sync($categories);
+            } else {
+                $company->categories()->detach(); // If no categories are selected, detach all existing ones
+            }
 
             // Return a success response
             //return response()->json(['message' => 'Company updated successfully']);
@@ -140,6 +161,8 @@ class CompanyController extends Controller
         try {
             // Find the company by ID
             $company = Company::findOrFail($id);
+
+            $company->categories()->detach(); // Detach categories before deleting
     
             // Delete the company
             $company->delete();
@@ -170,6 +193,10 @@ class CompanyController extends Controller
             $company->website = $this->generateRandomCompanyWebsite();
             // You may handle logo generation separately if needed
             $company->save();
+
+            // Attach random categories to the company
+            $this->attachRandomCategories($company);
+
         }
         session()->flash('success', 'Random data generated successfully.');
         return redirect()->route('company.list');
@@ -244,5 +271,11 @@ class CompanyController extends Controller
             'https://datagurus.com'
         ];
         return $websites[array_rand($websites)];
+    }
+
+    private function attachRandomCategories(Company $company)
+    {
+        $categories = Category::inRandomOrder()->limit(rand(0, 4))->get(); // Randomly select 0 to 4 categories
+        $company->categories()->attach($categories);
     }
 }

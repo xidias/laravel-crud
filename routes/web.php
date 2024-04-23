@@ -5,14 +5,16 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
+use App\Http\Controllers\CompanyCategoryController;
 
 Route::get('/', function () {
     return view('home');
 })->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::resource('company-categories', CompanyCategoryController::class);
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/company/list', [CompanyController::class,'index'])->name('company.list');

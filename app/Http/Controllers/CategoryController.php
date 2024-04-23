@@ -131,6 +131,7 @@ class CategoryController extends Controller
             // Find the category by ID
             $category = Category::findOrFail($id);
     
+            $category->companies()->detach(); // Detach companies before deleting
             // Delete the category
             $category->delete();
     

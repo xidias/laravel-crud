@@ -49,12 +49,19 @@ This Laravel project implements CRUD (Create, Read, Update, Delete) functionalit
    php artisan migrate
    ```
 
+7. If your Laravel application uses Laravel Mix for compiling assets (CSS, JavaScript), you need to run the Mix commands. Typically, this involves running `npm install` to install dependencies and then running one of the following commands based on your needs:
+
+   - For development:
+     ```bash
+     npm run dev
+     ```
+   - For production (minified assets):
+     ```bash
+     npm run prod
+     ```
+
 ## Usage
 
-To start the Laravel development server, run:
-```bash
-php artisan serve
-```
 - Register as an admin or moderator.
 - Admins have full CRUD permissions for companies, employees, and categories.
 - Moderators can modify companies and employees.
@@ -73,30 +80,6 @@ php artisan serve
 - **Categories:**
   - Create, read, update, delete categories.
   - Fields: Name, Description.
-
-## Validation Rules
-
-- Companies:
-  ```php
-  'name' => 'required|string|max:255',
-  'email' => 'required|email|max:255',
-  'description' => 'nullable|string',
-  'website' => 'nullable|url',
-  'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Max size 2MB
-  ```
-
-- Employees:
-  ```php
-  'full_name' => 'required|string|max:255',
-  'email' => 'required|email|max:255',
-  'phone' => 'nullable|max:255',
-  ```
-
-- Categories:
-  ```php
-  'name' => 'required|string|max:255',
-  'description' => 'nullable|string',
-  ```
 
 ## License
 

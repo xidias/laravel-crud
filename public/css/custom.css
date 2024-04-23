@@ -40,4 +40,51 @@ main>.container {
     border-color: #ddd; /* Change disabled page border color */
 }
 
+.form-floating>.form-control:disabled~label, .form-floating>:disabled~label {
+    color:rgba(var(--bs-body-color-rgb), .65);
+}
+.form-floating>.form-control.select-picker:not(:placeholder-shown) {
+    padding-top: unset;
+    padding-bottom: unset;
+}
+select.select-picker + .dropdown-toggle {
+	padding: 1.55rem .75rem .125rem;
+    height: calc(3.5rem + calc(var(--bs-border-width)* 2));
+    min-height: calc(3.5rem + calc(var(--bs-border-width)* 2));
+    line-height: 1.25;
+    background-color: transparent;
+    background-clip: padding-box;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+	box-shadow: none;
+	outline: none;
+}
+
+.dropdown.bootstrap-select.disabled {
+	background: var(--bs-secondary-bg);
+    opacity: 1;
+    height: calc(3.5rem + calc(var(--bs-border-width)* 2));
+    min-height: calc(3.5rem + calc(var(--bs-border-width)* 2));
+    line-height: 1.25;
+}
+.bootstrap-select .dropdown-toggle:focus, .bootstrap-select>select.mobile-device:focus+.dropdown-toggle {
+	box-shadow: none;
+	outline: none!important;
+}
+.bootstrap-select .dropdown-toggle .filter-option-inner-inner {
+    max-width: 375px;
+}
+.form-floating>.form-control.select-picker:not(:placeholder-shown)~label:after {
+    background-color: transparent;
+}
+.form-floating>.form-control.select-picker.disabled:not(:placeholder-shown) {
+    padding: 0;
+}
+.form-floating>.form-control.select-picker.disabled:not(:placeholder-shown)~label {
+    transform: scale(0.85) translateY(-.6rem) translateX(.25rem)!important;
+}
+.bootstrap-select>.dropdown-toggle:after {
+    margin-top: -12px;
+    margin-right: 12px;
+}
+
 
