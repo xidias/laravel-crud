@@ -103,7 +103,7 @@
     </footer>
 
     <!-- Example using JavaScript to display flash message -->
-    @if (session('success'))
+{{--      @if (session('success'))
         <script>
             alert("{{ session('success') }}");
         </script>
@@ -112,6 +112,50 @@
         <script>
             alert("{{ session('error') }}");
         </script>
-    @endif
+    @endif --}}
+    <!-- Toast Container -->
+    {{-- <div id="toastContainer" class="toast-container"></div> --}}
+
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+{{--         <div class="toast-header">
+          <img src="..." class="rounded me-2" alt="...">
+          <strong class="me-auto">Bootstrap</strong>
+          <small>11 mins ago</small>
+          <span  class="me-auto">&nbsp;</span>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div> --}}
+        <div class="toast-body">
+        </div>
+      </div>
+    </div>
+
+    @if (session('success') || session('error'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var toastContainer = document.querySelector('.toast-container');
+            var liveToast = document.getElementById('liveToast');
+            //var toastHeader = liveToast.querySelector('.toast-header');
+            var toastBody = liveToast.querySelector('.toast-body');
+
+            var messageType = @json(session('success') ? 'success' : 'danger');
+            var messageText = @json(session('success') ?? session('error'));
+
+            var toast = new bootstrap.Toast(liveToast);
+console.log(messageText);
+            toastBody.textContent = messageText;
+            liveToast.classList.add('bg-' + messageType); // Apply background color based on message type
+
+            toast.show();
+
+            // Hide the toast after a few seconds (optional)
+            setTimeout(function () {
+                toast.hide();
+            }, 5000); // Adjust the delay time as needed (in milliseconds)
+        });
+    </script>
+@endif
+
 </body>
 </html>

@@ -1,7 +1,8 @@
 // public/js/custom.js
-document.addEventListener("DOMContentLoaded", function() {
+/* document.addEventListener("DOMContentLoaded", function() {
     console.log("Custom JavaScript loaded!");
-});
+}); */
+
 
 
 $(function() {
@@ -66,11 +67,23 @@ $(function() {
         $('select.select-picker').selectpicker();
     }
 
+    function modalMessage(message) {
+        console.log('ii');
+        const modal = $('#exampleModal');
+        modal.on('show.bs.modal', function() {
+            modal.find('.modal-content').html(message);
+        });
+    }
+
     function displayFileName(input) {
         var fileName = input.files[0].name; // Get the file name
         $('#logo_name').val(fileName); // Set the file name in the hidden input field
         $('#logo_display').text(fileName); // Display the file name in the span
     }
+
+
+    
+    
 
 /* 
     $(document).on('click','.btn-secondary', function() {
