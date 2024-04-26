@@ -66,7 +66,7 @@
 @elseif (isset($action))
 {{-- <pre>{{ print_r($categories, true) }}</pre> --}}
     @php
-        $disableInput = '';
+        $disableInput = NULL;
         $formAction = route('company.list');
         switch ($action) {
             case 'add':
@@ -123,25 +123,22 @@
             <input type="text" class="form-control" id="company-website" name="website" {{$disableInput}} value="{{$company->website??NULL}}">
             <label for="company-website">Ιστοσελίδα</label>
         </div>
-        <div class="form-floating mb-3">
-            <input type="file" class="form-control form-control-file" id="company-logo" name="logo" {{$disableInput}} value="{{$company->logo??NULL}}">
+        <div class="form-floating mb-3" id="logo-input-container">
+            <input type="file" class="form-control form-control-file" id="company-logo" name="logo" {{$disableInput}}>
             <label class="" for="company-logo">Λογότυπο</label>
-            <span id="logoFileName" style="margin-top: 5px;display: inline-block;font-size: 14px;"></span>
+            <span id="logoFileName" style="margin-top: 5px; display: none; font-size: 14px;"></span>
         </div>
-        @if (isset($company->logo)&&!empty($company->logo))
-            <img src="{{ asset('storage/' . $company->logo) }}" alt="Company Logo" style="max-width:100%">
-        @endif
-        <script>
-            document.getElementById('company-logo').addEventListener('change', function(e) {
-                const fileName = e.target.files[0].name;
-                document.getElementById('logoFileName').textContent = fileName;
-            });
-        </script>
+            <div id="logo-preview">
+                <img src="{{ $company->logo?asset('storage/' . $company->logo):'#' }}" alt="Company Logo" style="max-width: 100px;">
+                @if (!$disableInput)
+                    <button type="button" class="btn btn-sm btn-danger" id="deleteLogoBtn">Διαγραφή</button>
+                @endif
+            </div>
 
     @endsection
 
     @section('form')
-        <form data-action="{{$action}}" method="POST" action="{{$formAction}}" enctype="multipart/form-data">
+        <form id="company-form" data-action="{{$action}}" method="POST" action="{{$formAction}}" enctype="multipart/form-data">
             @csrf
             @if ($action == 'edit')
                 @method('PUT')

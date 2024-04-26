@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use App\Models\Company;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -35,8 +37,7 @@ class CompanyController extends Controller
     public function store(Request $request)
     {
         try {
-            // Validate incoming request data
-            $validatedData = $request->validate([
+            $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|max:255',
                 'description' => 'nullable|string',
@@ -44,14 +45,26 @@ class CompanyController extends Controller
                 'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Max size 2MB
                 'categories' => 'nullable|array', // Assuming categories are passed as an array of IDs
             ]);
-
+    
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+    
+            // Handle logo upload
             if ($request->hasFile('logo')) {
-                $logoPath = $request->file('logo')->store('logos', 'public');
-                $validatedData['logo'] = $logoPath;
+                $logoPath = $request->file('logo')->store('company-logos', 'public');
+            } else {
+                $logoPath = null;
             }
     
             // Create a new company using mass assignment
-            $company = Company::create($validatedData);
+            $company = Company::create([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'description' => $request->input('description'),
+                'website' => $request->input('website'),
+                'logo' => $logoPath,
+            ]);
 
             // Sync the categories
             if ($request->has('categories')) {
@@ -64,10 +77,10 @@ class CompanyController extends Controller
             return redirect()->route('company.list');
         } catch (ValidationException $e) {
             // Validation failed, redirect back with errors
-            return redirect()->back()->withErrors($e->validator->errors())->withInput();
+            session()->flash('success', 'Company updated successfully');
+            return redirect()->route('company.list');
         } catch (\Exception $e) {
-            // Handle other exceptions, flash error message
-            session()->flash('error', 'Error creating company: ' . $e->getMessage());
+            session()->flash('error', 'Error updating company');
             return redirect()->route('company.list');
         }
     }
@@ -103,34 +116,47 @@ class CompanyController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // Use Validator facade to perform validation
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'description' => 'nullable|string',
             'website' => 'nullable|url',
-            'logo' => 'nullable|string',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max file size as needed
             'categories' => 'nullable|array', // Assuming categories are passed as an array of IDs
         ]);
-
+    
         if ($validator->fails()) {
-            // Return validation errors in JSON format with 422 status code
-            //return response()->json(['errors' => $validator->errors()], 422);
-            session()->flash('error', $validator->errors());
+            session()->flash('error', $validator->errors()->first());
             return redirect()->route('company.list');
         }
-
+    
         try {
             $company = Company::findOrFail($id);
-
+    
             $company->name = $request->input('name');
             $company->email = $request->input('email');
             $company->description = $request->input('description');
             $company->website = $request->input('website');
-            $company->logo = $request->input('logo');
+    
 
+
+            if ($request->has('delete_logo') && $request->input('delete_logo') == '1') {
+                // Handle logo deletion
+                $company->logo = null; // Set the logo field to null in your database
+                Storage::delete('public' . $company->logo); // Delete the file from storage (if needed)
+                $company->save(); // Save the changes
+            }
+            else if ($request->hasFile('logo')) {
+                // Delete old logo if exists
+                if ($company->logo) {
+                    Storage::disk('public')->delete($company->logo);
+                }
+                $logoPath = $request->file('logo')->store('company-logos', 'public');
+                $company->logo = $logoPath;
+            }
+    
             $company->save();
-
+    
             // Sync the categories
             if ($request->has('categories')) {
                 $categories = Category::whereIn('id', $request->input('categories'))->get();
@@ -138,19 +164,14 @@ class CompanyController extends Controller
             } else {
                 $company->categories()->detach(); // If no categories are selected, detach all existing ones
             }
-
-            // Return a success response
-            //return response()->json(['message' => 'Company updated successfully']);
+    
             session()->flash('success', 'Company updated successfully');
             return redirect()->route('company.list');
         } catch (\Exception $e) {
-            // Handle exceptions and return error response
-            //return response()->json(['message' => 'Error updating company'], 500);
             session()->flash('error', 'Error updating company');
             return redirect()->route('company.list');
         }
-
-    }    
+    }
     
 
     /**
