@@ -75,7 +75,7 @@ $(function() {
             $('#logo-input-container').show();   
         }
         // Show file name when a file is selected
-        $('#company-logo').change(function() {
+        $('#company-logo').on('change',function() {
             const fileName = $(this).val().split('\\').pop();
             //$('#logoFileName').text(fileName).show();
 
@@ -84,14 +84,14 @@ $(function() {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     $('#logo-preview>img').attr('src', e.target.result);
-                    $('#logo-preview').removeClass('d-none');
+                    $('#logo-preview').show();
                 };
                 reader.readAsDataURL(this.files[0]);
             }
         });
 
         // Show file input and hide logo preview when delete button is clicked
-        $('#deleteLogoBtn').click(function() {
+        $('#deleteLogoBtn').on('click',function() {
             const confirmation = confirm('Are you sure you want to delete the logo?');
             if (confirmation) {
                 $('#company-logo').val(''); // Clear the file input value
@@ -116,13 +116,4 @@ $(function() {
         });
     }
 
-
-    
-    
-
-/* 
-    $(document).on('click','.btn-secondary', function() {
-        alert('ddd');
-    });
- */
 });
