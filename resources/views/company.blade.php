@@ -7,7 +7,7 @@
         <div class="container page-content" data-url="{{url('/')}}/company/modal">
             <div class="d-flex align-items-center justify-content-between options">
             <h1 class="my-5 h3">Εταιρείες</h1>
-            <a href="javascript:void(0)" class="text-decoration-none" data-action="add" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <a href="javascript:void(0)" class="text-decoration-none tooltip-top" data-action="add" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-title="Προσθήκη">
                 <img src="{{ asset('icons/plus.svg') }}" alt="Edit Icon">
             </a>
             </div>
@@ -31,13 +31,13 @@
                             <td>{{$company->website}}</td>
                             <td>
                                 <div class="options d-flex justify-content-between">
-                                <a href="javascript:void(0)" class="text-decoration-none" data-action="preview" data-id="{{$company->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <a href="javascript:void(0)" class="text-decoration-none tooltip-top" data-action="preview" data-id="{{$company->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-title="Προβολή">
                                     <img src="{{ asset('icons/preview.svg') }}" alt="Show Icon">
                                 </a>
-                                <a href="javascript:void(0)" class="text-decoration-none" data-action="edit" data-id="{{$company->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <a href="javascript:void(0)" class="text-decoration-none tooltip-top" data-action="edit" data-id="{{$company->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-title="Επεξεργασία">
                                     <img src="{{ asset('icons/pencil.svg') }}" alt="Edit Icon">
                                 </a>
-                                <a href="javascript:void(0)" class="text-decoration-none" data-action="delete" data-id="{{$company->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <a href="javascript:void(0)" class="text-decoration-none tooltip-top" data-action="delete" data-id="{{$company->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-title="Διαγραφή">
                                     <img src="{{ asset('icons/trash.svg') }}" alt="Delete Icon">
                                 </a>
                                 </div>
@@ -129,7 +129,7 @@
             <span id="logoFileName" style="margin-top: 5px; display: none; font-size: 14px;"></span>
         </div>
             <div id="logo-preview">
-                <img src="{{ $company->logo?asset('storage/' . $company->logo):'#' }}" alt="Company Logo" style="max-width: 100px;">
+                <img src="{{ isset($company->logo)?asset('storage/' . $company->logo):'#' }}" alt="Company Logo" style="max-width: 100px;">
                 @if (!$disableInput)
                     <button type="button" class="btn btn-sm btn-danger" id="deleteLogoBtn">Διαγραφή</button>
                 @endif

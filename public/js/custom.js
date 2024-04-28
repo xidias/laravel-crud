@@ -11,6 +11,8 @@ $(function() {
     modal.on('hide.bs.modal', function() {
         //modal.find('.modal-content').html('');
     });
+    $('.tooltip-top').tooltip({placement: 'top'});
+
     $('.options>[data-bs-toggle="modal"]').on('click', function() {
         // Open modal
         modal.on('show.bs.modal');
@@ -43,6 +45,7 @@ $(function() {
 
 
     function modalForm() {
+        $('.tooltip-top').tooltip({placement: 'top'});
         // Initialize labels on page load if input fields are pre-filled
         $('.form-floating .form-control').each(function() {
             if ($(this).val() || $(this).attr('type') == 'file') {
@@ -85,6 +88,7 @@ $(function() {
                 reader.onload = function(e) {
                     $('#logo-preview>img').attr('src', e.target.result);
                     $('#logo-preview').show();
+                    $('#logo-input-container').hide();
                 };
                 reader.readAsDataURL(this.files[0]);
             }

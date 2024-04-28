@@ -87,4 +87,16 @@ select.select-picker + .dropdown-toggle {
     margin-right: 12px;
 }
 
+input[type=file]::file-selector-button {
+    background-color: transparent;
+    border: none;
+}
+input:hover::file-selector-button, input::file-selector-button:hover {
+    background-color: transparent!important;
+    border: none;
+  }
+input[type=file]:disabled::file-selector-button {
+    display: none;
+}
+
 
