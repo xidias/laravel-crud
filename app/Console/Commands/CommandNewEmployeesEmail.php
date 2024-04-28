@@ -15,7 +15,7 @@ class CommandNewEmployeesEmail extends Command
      *
      * @var string
      */
-    protected $signature = 'email:new-employees-email';
+    protected $signature = 'app:new-employees-email';
 
     /**
      * The console command description.

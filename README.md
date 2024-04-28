@@ -1,5 +1,4 @@
 
-markdown
 # Laravel CRUD Project
 
 This Laravel project implements CRUD (Create, Read, Update, Delete) functionality for managing companies, employees, and categories.
@@ -109,6 +108,38 @@ This Laravel project implements CRUD (Create, Read, Update, Delete) functionalit
     ```
 
     Access the application at `http://127.0.0.1:8000`.
+
+---
+
+## Setting up Mailer
+
+This project uses Laravel's built-in mailing system. To configure email sending:
+
+1. Open the `.env` file and set the `MAIL_MAILER` variable to your desired mail driver (e.g., `smtp`, `mailtrap`, `sendmail`).
+
+2. Configure the corresponding mail driver settings such as `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD`, etc., based on your email service provider or local mail server.
+
+For development, consider using services like [Mailtrap](https://mailtrap.io/) to simulate email sending without actually sending emails to real recipients.
+
+---
+
+## Setting up Cron Job
+
+To enable Laravel's task scheduling:
+
+1. Open your terminal and run:
+   ```bash
+   crontab -e
+   ```
+
+2. Add the following cron job entry to run Laravel's scheduler every minute:
+   ```cron
+   * * * * * php /path/to/php /path/to/project/artisan schedule:run >> /path/to/cron.log 2>&1
+   ```
+
+   Replace `/path/to/php`, `/path/to/project`, and `/path/to/cron.log` with the actual paths in your system.
+
+This cron job will execute Laravel's scheduler every minute, and any scheduled tasks will be executed accordingly.
 
 ---
 
