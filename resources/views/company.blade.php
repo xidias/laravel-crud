@@ -8,7 +8,7 @@
             <div class="d-flex align-items-center justify-content-between options">
             <h1 class="my-5 h3">Εταιρείες</h1>
             <a href="javascript:void(0)" class="text-decoration-none tooltip-top" data-action="add" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-title="Προσθήκη">
-                <img src="{{ asset('icons/plus.svg') }}" alt="Edit Icon">
+                @include('components.svg', ['name' => 'plus-square'])
             </a>
             </div>
             @if (!$companies->isEmpty())
@@ -32,13 +32,13 @@
                             <td>
                                 <div class="options d-flex justify-content-between">
                                 <a href="javascript:void(0)" class="text-decoration-none tooltip-top" data-action="preview" data-id="{{$company->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-title="Προβολή">
-                                    <img src="{{ asset('icons/preview.svg') }}" alt="Show Icon">
+                                    @include('components.svg', ['name' => 'box-arrow-up-right'])
                                 </a>
                                 <a href="javascript:void(0)" class="text-decoration-none tooltip-top" data-action="edit" data-id="{{$company->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-title="Επεξεργασία">
-                                    <img src="{{ asset('icons/pencil.svg') }}" alt="Edit Icon">
+                                    @include('components.svg', ['name' => 'pencil-square'])
                                 </a>
                                 <a href="javascript:void(0)" class="text-decoration-none tooltip-top" data-action="delete" data-id="{{$company->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-title="Διαγραφή">
-                                    <img src="{{ asset('icons/trash.svg') }}" alt="Delete Icon">
+                                    @include('components.svg', ['name' => 'trash3-fil'])
                                 </a>
                                 </div>
                             </td>
@@ -49,6 +49,7 @@
                 {{ $companies->links() }} <!-- Display pagination links -->
             @else
                 <p> Δεν υπάρχουν εγραφές</p>
+                <p> Αν δεν έχουν δημιουργηθεί κατηγορίες δεν θα δημιουργηθούν οι αντίστοιχες εγραφές ανά εταιρεία.</p>
                 <form action="{{ route('company.random') }}" method="POST">
                     @csrf
                     <div class="mb-3">
@@ -131,7 +132,7 @@
             <div id="logo-preview">
                 <img src="{{ isset($company->logo)?asset('storage/' . $company->logo):'#' }}" alt="Company Logo" style="max-width: 100px;">
                 @if (!$disableInput)
-                    <button type="button" class="btn btn-sm btn-danger" id="deleteLogoBtn">Διαγραφή</button>
+                    <button type="button" class="btn btn-sm border-danger-subtle bg-danger-subtle mx-2" id="deleteLogoBtn">Διαγραφή</button>
                 @endif
             </div>
 
@@ -151,16 +152,16 @@
             </div>
             @if ($action == 'add'||$action == 'edit')
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ακύρωση</button>
-                    <button type="submit" class="btn btn-primary">Αποθήκευση</button>
+                    <button type="button" class="btn border-secondary-subtle bg-secondary-subtle" data-bs-dismiss="modal">Ακύρωση</button>
+                    <button type="submit" class="btn border-primary-subtle bg-primary-subtle">Αποθήκευση</button>
                 </div>
             @endif
             @if ($action == 'delete')
                 <div class="modal-footer d-flex flex-column">
                     <p class="mb-2">Να γίνει οριστική διαγραφή;</p>
                     <div>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ακύρωση</button>
-                        <button type="submit" class="btn btn-danger">Διαγραφή</button>
+                        <button type="button" class="btn border-secondary-subtle bg-secondary-subtle" data-bs-dismiss="modal">Ακύρωση</button>
+                        <button type="submit" class="btn border-danger-subtle bg-danger-subtle">Διαγραφή</button>
                     </div>
                 </div>
             @endif

@@ -8,7 +8,7 @@
             <div class="d-flex align-items-center justify-content-between options">
             <h1 class="my-5 h3">Εργαζόμενοι</h1>
             <a href="javascript:void(0)" class="text-decoration-none tooltip-top" data-action="add" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-title="Προσθήκη">
-                <img src="{{ asset('icons/plus.svg') }}" alt="Edit Icon">
+                @include('components.svg', ['name' => 'plus-square'])
             </a>
             </div>
             @if(!$employees->isEmpty())
@@ -32,13 +32,13 @@
                         <td>
                             <div class="options d-flex justify-content-between">
                             <a href="javascript:void(0)" class="text-decoration-none tooltip-top" data-action="preview" data-id="{{$employee->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-title="Προβολή">
-                                <img src="{{ asset('icons/preview.svg') }}" alt="Show Icon">
+                                @include('components.svg', ['name' => 'box-arrow-up-right'])
                             </a>
                             <a href="javascript:void(0)" class="text-decoration-none tooltip-top" data-action="edit" data-id="{{$employee->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-title="Επεξεργασία">
-                                <img src="{{ asset('icons/pencil.svg') }}" alt="Edit Icon">
+                                @include('components.svg', ['name' => 'pencil-square'])
                             </a>
                             <a href="javascript:void(0)" class="text-decoration-none tooltip-top" data-action="delete" data-id="{{$employee->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-title="Διαγραφή">
-                                <img src="{{ asset('icons/trash.svg') }}" alt="Delete Icon">
+                                @include('components.svg', ['name' => 'trash3-fil'])
                             </a>
                             </div>
                         </td>
@@ -123,16 +123,16 @@
             </div>
             @if ($action == 'add'||$action == 'edit')
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ακύρωση</button>
-                    <button type="submit" class="btn btn-primary">Αποθήκευση</button>
+                    <button type="button" class="btn border-secondary-subtle bg-secondary-subtle" data-bs-dismiss="modal">Ακύρωση</button>
+                    <button type="submit" class="btn border-primary-subtle bg-primary-subtle">Αποθήκευση</button>
                 </div>
             @endif
             @if ($action == 'delete')
                 <div class="modal-footer d-flex flex-column">
                     <p class="mb-2">Να γίνει οριστική διαγραφή;</p>
                     <div>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ακύρωση</button>
-                        <button type="submit" class="btn btn-danger">Διαγραφή</button>
+                        <button type="button" class="btn border-secondary-subtle bg-secondary-subtle" data-bs-dismiss="modal">Ακύρωση</button>
+                        <button type="submit" class="btn border-danger-subtle bg-danger-subtle">Διαγραφή</button>
                     </div>
                 </div>
             @endif

@@ -28,7 +28,7 @@
                 @if($loggedInUser)
                     <div class="card-body">
                         <p class="card-text">Manage companies information.</p>
-                        <a href="{{route('company.list')}}" class="btn btn-primary">View Companies</a>
+                        <a href="{{route('company.list')}}" class="btn border-primary-subtle bg-primary-subtle">View Companies</a>
                     </div>
                 @endif
             </div>
@@ -39,7 +39,7 @@
                 @if ($loggedInUser)
                     <div class="card-body">
                         <p class="card-text">Manage employees information.</p>
-                        <a href="{{route('employee.list')}}" class="btn btn-primary">View Employees</a>
+                        <a href="{{route('employee.list')}}" class="btn border-primary-subtle bg-primary-subtle">View Employees</a>
                     </div>
                 @endif
             </div>
@@ -50,7 +50,7 @@
                 @if ($loggedInUser&&$loggedInUser->role=='admin')
                     <div class="card-body">
                         <p class="card-text">Manage company categories.</p>
-                        <a href="{{route('category.list')}}" class="btn btn-primary">View Categories</a>
+                        <a href="{{route('category.list')}}" class="btn border-primary-subtle bg-primary-subtle">View Categories</a>
                     </div>
                 @endif
             </div>

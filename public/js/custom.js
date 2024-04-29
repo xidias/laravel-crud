@@ -7,6 +7,7 @@
 
 $(function() {
 
+    systemTheme();
     const modal = $('#exampleModal');
     modal.on('hide.bs.modal', function() {
         //modal.find('.modal-content').html('');
@@ -113,11 +114,50 @@ $(function() {
     }
 
     function modalMessage(message) {
-        //console.log('ii');
         const modal = $('#exampleModal');
         modal.on('show.bs.modal', function() {
             modal.find('.modal-content').html(message);
         });
+    }
+
+
+    // Check localStorage for the user's selected theme
+    let selectedTheme = localStorage.getItem('theme');
+    // If the theme is not set, default to 'auto'
+    if (!selectedTheme) {
+        selectedTheme = 'auto';
+        localStorage.setItem('theme', selectedTheme);
+    }
+    setTheme(selectedTheme);
+    $('[aria-labelledby="change-theme"]>a').on('click', function() {
+        const value = $(this).data('bs-theme-value');
+        localStorage.setItem('theme', value);
+        setTheme(value);
+    });
+
+    function systemTheme() {
+        // Detect system theme and set data-bs-theme attribute
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            $('html').attr('data-bs-theme', 'dark');
+        } else {
+            $('html').attr('data-bs-theme', 'light');
+        }
+    }
+    function setTheme(value) {
+        const object = $(`[data-bs-theme="${value}"]`);
+        switch(value) {
+            case 'light':
+                $('html').attr('data-bs-theme', 'light');
+                $('#change-theme').html(object.children('span').html());
+              break;
+            case 'dark':
+                $('html').attr('data-bs-theme', 'dark');
+                $('#change-theme').html(object.children('span').html());
+              break;
+            default:
+                systemTheme();
+                $('#change-theme').html(object.children('span').html());
+        }
     }
 
 });

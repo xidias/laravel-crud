@@ -18,7 +18,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md bg-secondary-subtle shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -66,7 +66,7 @@
                                     {{ Auth::user()->name }}
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -79,6 +79,22 @@
                                 </div>
                             </li>
                         @endguest
+                        <li class="nav-item dropdown">
+                            <a id="change-theme" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                @include('components.svg', ['name' => 'circle-half'])
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="change-theme">
+                                <a class="dropdown-item" href="javascript:void(0)" data-bs-theme-value="light">
+                                    <span>@include('components.svg', ['name' => 'sun-fill'])</span> &emsp;Light
+                                </a>
+                                <a class="dropdown-item" href="javascript:void(0)" data-bs-theme-value="dark">
+                                    <span>@include('components.svg', ['name' => 'moon-stars-fill'])</span> &emsp;Dark
+                                </a>
+                                <a class="dropdown-item" href="javascript:void(0)" data-bs-theme-value="auto">
+                                    <span>@include('components.svg', ['name' => 'circle-half'])</span> &emsp;Auto
+                                </a>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -96,7 +112,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-dark text-light text-center py-3">
+    <footer class="bg-secondary-subtle text-center py-3">
         <div class="container">
             &copy; {{ date('Y') }} Demo Project. All rights reserved.
         </div>

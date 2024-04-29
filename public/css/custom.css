@@ -1,43 +1,31 @@
 /* public/css/custom.css */
-body {
-    background-color: #f0f0f0;
+
+.btn-link,.btn-link:hover,.btn-link:focus {color: unset;}
+.dropdown-menu[aria-labelledby="change-theme"] {
+    min-width: unset;
 }
+.options a {color:var(--bs-body-color);}
+body,table {
+    transition: all .5s;
+}
+input:disabled,textarea:disabled {
+    cursor: no-drop;
+}
+
 main>.container {
     min-height: calc(100vh - 2*56px);
 }
-[aria-label="Pagination Navigation"] svg {
-    max-width: 20px;
+.pagination .page-link {
+    color: var(--bs-nav-link-color);
+    --bs-pagination-color: var(--bs-nav-link-color);
 }
-[aria-label="Pagination Navigation"] {
-    min-height: 125px;
+.pagination .page-link:hover {
+    color: var(--bs-body-color);
+    --bs-pagination-color: var(--bs-body-color);
 }
-[aria-label="Pagination Navigation"] > * {
-    margin-bottom: 1rem;
-}
-[aria-label="Pagination Navigation"] a {
-    text-decoration: none;
-}
-[aria-label="Pagination Navigation"] .relative>a.px-2 {
-    padding-left: 0!important;
-    padding-right: 0!important;
-}
-
-.pagination .page-item .page-link {
-    color: #fff; /* Change text color */
-    background-color: #007bff; /* Change background color */
-    border-color: #007bff; /* Change border color */
-
-}
-
-.pagination .page-item.active .page-link {
-    background-color: #0056b3; /* Change active page background color */
-    border-color: #0056b3; /* Change active page border color */
-}
-
-.pagination .page-item.disabled .page-link {
-    color: #6c757d; /* Change disabled page text color */
-    background-color: #fff; /* Change disabled page background color */
-    border-color: #ddd; /* Change disabled page border color */
+.pagination .active>.page-link {
+    background-color: var(--bs-primary-bg-subtle);
+    border-color: var(--bs-primary-border-subtle);
 }
 
 .form-floating>.form-control:disabled~label, .form-floating>:disabled~label {
@@ -53,11 +41,13 @@ select.select-picker + .dropdown-toggle {
     min-height: calc(3.5rem + calc(var(--bs-border-width)* 2));
     line-height: 1.25;
     background-color: transparent;
+    color: unset;
     background-clip: padding-box;
     border: var(--bs-border-width) solid var(--bs-border-color);
 	box-shadow: none;
 	outline: none;
 }
+
 
 .dropdown.bootstrap-select.disabled {
 	background: var(--bs-secondary-bg);
